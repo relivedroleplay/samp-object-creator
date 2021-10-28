@@ -41,7 +41,6 @@ enum objData {
   Float:oStream,
   oMaterials[MAX_MATERIALS],
   oMatsColor[MAX_MATERIALS],
-  oHouse,
   oMatsText,
   oMatsTextIndex,
   oText[256],
@@ -177,7 +176,6 @@ Function:Object_Load() {
       cache_get_value(i, "MatsColor", string);
       sscanf(string, "p<|>dddddddddddddddd", ObjData[i][oMatsColor][0], ObjData[i][oMatsColor][1], ObjData[i][oMatsColor][2], ObjData[i][oMatsColor][3], ObjData[i][oMatsColor][4], ObjData[i][oMatsColor][5], ObjData[i][oMatsColor][6], ObjData[i][oMatsColor][7], ObjData[i][oMatsColor][8], ObjData[i][oMatsColor][9], ObjData[i][oMatsColor][10], ObjData[i][oMatsColor][11], ObjData[i][oMatsColor][12], ObjData[i][oMatsColor][13], ObjData[i][oMatsColor][14], ObjData[i][oMatsColor][15]);
 
-      cache_get_value_int(i, "House", ObjData[i][oHouse]);
       cache_get_value_int(i, "MatsText", ObjData[i][oMatsText]);
       cache_get_value_int(i, "MatsTextIndex", ObjData[i][oMatsTextIndex]);
       cache_get_value(i, "Text", ObjData[i][oText], 256);
@@ -234,7 +232,6 @@ Object_Create(model, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz, vw
     ObjData[i][oMatsTextColor] = 0xFFFFFFFF;
     ObjData[i][oMatsTextBackColor] = 0xFF000000;
     ObjData[i][oMatsTextAlignment] = 0;
-    ObjData[i][oHouse] = -1;
 
     Object_Refresh(i);
 
@@ -294,7 +291,7 @@ Object_Save(id) {
     ObjData[id][oID]
   );
   mysql_tquery(g_iHandle, query);
-  format(query,sizeof(query),"UPDATE `objects` SET `MatsText` = '%d', `MatsTextIndex` = '%d', `Text` = '%s', `MatsTextSize` = '%d', `MatsTextFont` = '%s', `MatsTextFontSize` = '%d', `MatsTextBold` = '%d', `MatsTextColor` = '%d', `MatsTextBackColor` = '%d', `MatsTextAlignment` = '%d', `House`='%d' WHERE `ID` = '%d'",
+  format(query,sizeof(query),"UPDATE `objects` SET `MatsText` = '%d', `MatsTextIndex` = '%d', `Text` = '%s', `MatsTextSize` = '%d', `MatsTextFont` = '%s', `MatsTextFontSize` = '%d', `MatsTextBold` = '%d', `MatsTextColor` = '%d', `MatsTextBackColor` = '%d', `MatsTextAlignment` = '%d' WHERE `ID` = '%d'",
     ObjData[id][oMatsText],
     ObjData[id][oMatsTextIndex],
     SQL_ReturnEscaped(ObjData[id][oText]),
@@ -305,7 +302,6 @@ Object_Save(id) {
     ObjData[id][oMatsTextColor],
     ObjData[id][oMatsTextBackColor],
     ObjData[id][oMatsTextAlignment],
-    ObjData[id][oHouse],
     ObjData[id][oID]
   );
   mysql_tquery(g_iHandle, query);
@@ -725,9 +721,6 @@ CMD:objectinfo(playerid, params[]) {
     strcat(str,sprintf("Material Text Color:\t%d\n",ObjData[id][oMatsTextColor]));
     strcat(str,sprintf("Material Text Background:\t%d\n",ObjData[id][oMatsTextBackColor]));
     strcat(str,sprintf("Material Text Alignment:\t%s",(ObjData[id][oMatsTextAlignment] == 0) ? ("Left") : ((ObjData[id][oMatsTextAlignment] == 1) ? ("Center") : ((ObjData[id][oMatsTextAlignment] == 2) ? ("Right") : ("")))));
-  }
-  if (ObjData[id][oHouse]) {
-    strcat(str, sprintf("\nHouse ID:\t%d", ObjData[id][oHouse]));
   }
   Dialog_Show(playerid, ShowOnly, DIALOG_STYLE_TABLIST, sprintf("Object ID: %d", id), str, "OK", "");
   return 1;
