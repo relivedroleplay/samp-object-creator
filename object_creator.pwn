@@ -112,23 +112,23 @@ hook OnGameModeExit() {
 hook OnPlayerEditDynObj(playerid, objectid, response, Float:x, Float:y, Float:z, Float:rx, Float:ry, Float:rz) {
   if (PlayerEditObject[playerid] != -1) {
     switch(response) {
-	  case EDIT_RESPONSE_CANCEL: {
-		SetDynamicObjectPos(objectid, x, y, z);
-		SetDynamicObjectRot(objectid, rx, ry, rz);
-	  }
-	  case EDIT_RESPONSE_FINAL: {
-	    new id = PlayerEditObject[playerid];
- 		SetDynamicObjectPos(objectid, x, y, z);
-		SetDynamicObjectRot(objectid, rx, ry, rz);
-		ObjData[id][oPos][0] = x;
-		ObjData[id][oPos][1] = y;
-		ObjData[id][oPos][2] = z;
-		ObjData[id][oRot][0] = rx;
-		ObjData[id][oRot][1] = ry;
-		ObjData[id][oRot][2] = rz;
-		Object_Refresh(id);
-		Object_Save(id);
-	  }
+      case EDIT_RESPONSE_CANCEL: {
+        SetDynamicObjectPos(objectid, x, y, z);
+	SetDynamicObjectRot(objectid, rx, ry, rz);
+      }
+      case EDIT_RESPONSE_FINAL: {
+      	new id = PlayerEditObject[playerid];
+ 	SetDynamicObjectPos(objectid, x, y, z);
+	SetDynamicObjectRot(objectid, rx, ry, rz);
+	ObjData[id][oPos][0] = x;
+	ObjData[id][oPos][1] = y;
+	ObjData[id][oPos][2] = z;
+	ObjData[id][oRot][0] = rx;
+	ObjData[id][oRot][1] = ry;
+	ObjData[id][oRot][2] = rz;
+	Object_Refresh(id);
+	Object_Save(id);
+      }
     }
   }
   return 1;
